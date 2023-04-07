@@ -6,6 +6,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -40,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('patients',PatientController::class);
     Route::resource('drugs',DrugController::class);
     Route::resource('reservations',ReservationController::class);
+    Route::put('reservations/{reservation}',[ReservationController::class,'didcome'])->name('reservations.didcome');
     Route::resource('services',ServiceController::class);
 });
 

@@ -2,6 +2,49 @@
 
 
 @section('content')
+<div class="d-flex flex-wrap align-items-center justify-content-end">
+{{-- <button class="btn bg-success text-white m-1 text-nowrap">
+        <i class="me-1 fa-solid fa-hospital-user"></i>
+        Info
+    </button> --}}
+    <button class="btn bg-success text-white m-1 text-nowrap">
+        <i class="me-1 fa-solid fa-coins"></i>
+        facture
+    </button>
+    <button class="btn bg-success text-white m-1 text-nowrap">
+        <i class="me-1 fa-solid fa-notes-medical"></i>
+        ordonnance
+    </button>
+    <x-make_reservation_modal :id="$patient->id"/>
+
+ </div>
+
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{route('reservations.store')}}" method="POST">
+                @csrf
+            <input type="hidden" name="patient_id" value="{{$patient->id}}">
+            <div class="">
+                <label for="exampleFormControlInput1" class="form-label">Reservation date</label>
+                <input type="datetime-local" class="form-control" id="exampleFormControlInput1" name='date'>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
 <div class="card-body bg-white p-3 rounded-3">
     <div class="row gx-4 align-items-center">
         <div class="col-auto">
@@ -19,36 +62,7 @@
         </p>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-    <div class="nav-wrapper position-relative end-0">
-    <ul class="nav nav-pills nav-fill p-1" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center active" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-        <i class="fa-regular fa-user"></i>
-        <span class="ms-2">Patient</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-        <i class="fa-solid fa-calendar-days"></i>
-        <span class="ms-2">Reservations</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-        <i class="fa-solid fa-file-invoice"></i>
-        <span class="ms-2">factures</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-        <i class="fa-solid fa-notes-medical"></i>
-        <span class="ms-2">Ordonnace</span>
-    </a>
-    </li>
-    <div class="moving-tab position-absolute nav-link" style="padding: 0px; transition: all 0.5s ease 0s; transform: translate3d(0px, 0px, 0px); width: 99px;"><a class="nav-link mb-0 px-0 py-1 active d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">-</a></div></ul>
-    </div>
-     </div>
+
     </div>
 </div>
 @if (session()->has('success'))
@@ -56,8 +70,20 @@
     {{ session()->get('success') }}
 </div>
 @endif
+@if ($errors->any())
+<div class="alert alert-danger border-0 alert-dismissible fade show m-0 mt-2" role="alert">
+    <ul class="m-0">
+        @foreach ($errors->all() as $error)
+            <li class="text-white">{{ $error }}</li>
+        @endforeach
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 
-<div class="row mt-3">
+<div class="row g-3 mt-3">
 <div class="col-md-6">
     <div class="card">
     <div class="card-body">
@@ -104,54 +130,47 @@
 <div class="col-md-6">
     <div class="card mb-4">
     <div class="card-header pb-0">
-    <h6>Projects table</h6>
+    <h6>Reservations</h6>
     </div>
-    <div class="card-body px-0 pt-0 pb-2">
+    <div class="card-body p-0">
     <div class="table-responsive p-0">
-     <table class="table align-items-center justify-content-center mb-0">
+     <table class="table align-items-center justify-content-center mb-0 ">
     <thead>
     <tr>
     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Patient</th>
     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
     <th></th>
     </tr>
     </thead>
     <tbody>
-        @foreach ($patient->reservations as $reservation)
+        @foreach ($patient->reservations->sortByDesc('date') as $reservation)
 
 
     <tr>
         <td>
-        <div class="d-flex px-2">
-        <div>
-        <img src="https://ui-avatars.com/api/?name={{$patient->name}}&background=random&size=350&uppercase=false&font-size=0.5" class="avatar avatar-sm rounded-circle me-2" alt="spotify">
-        </div>
-        <div class="my-auto">
-        </div>
+        <div class="d-flex ps-3">
+        <img src="https://ui-avatars.com/api/?name={{$patient->name}}&background=random&size=350&uppercase=false&font-size=0.5" class="avatar avatar-sm rounded">
         </div>
         </td>
         <td>
-        <p class="text-sm font-weight-bold mb-0">$2,500</p>
+        <p class="text-sm font-weight-bold mb-0">{{\Carbon\Carbon::parse($reservation->date)->format('d/m/Y')}} </p>
         </td>
         <td>
-        <span class="text-xs font-weight-bold">working</span>
+        <span class="badge bg-gradient-{{strtotime($reservation->date)>time() ? 'warning' :( $reservation->didcome ? 'success' : 'danger')}}"> {{\Carbon\Carbon::parse($reservation->date)->diffForHumans()}}</span>
         </td>
-        <td class="align-middle text-center">
-        <div class="d-flex align-items-center justify-content-center">
-        <span class="me-2 text-xs font-weight-bold">60%</span>
-        <div>
-        <div class="progress">
-        <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+        <td class="">
+        @if(strtotime('today') == strtotime(\Carbon\Carbon::parse($reservation->date)->format('d-m-Y')) && !$reservation->didcome)
+        <div class=" d-flex align-items-center justify-content-end">
+            <form action="{{route('reservations.didcome',$reservation->id)}}" method="post">
+                @csrf
+                @method('PUT')
+                <button class="btn btn-info m-0" type="submit">
+                    Did come
+                </button>
+            </form>
         </div>
-        </div>
-        </div>
-        </td>
-        <td class="align-middle">
-        <button class="btn btn-link text-secondary mb-0">
-        <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-        </button>
+            @endif
         </td>
     </tr>
     @endforeach

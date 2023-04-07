@@ -13,7 +13,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return view('pages.reservations');
+        $reservations = Reservation::join('patients','reservations.patient_id','patients.id')->get();
+        return view('pages.reservations',compact('reservations'));
     }
 
     /**
@@ -22,6 +23,14 @@ class ReservationController extends Controller
     public function create()
     {
         //php
+    }
+
+    public function didcome(Reservation $reservation)
+    {
+         $reservation->didcome = 1;
+
+          $reservation->save();
+        return redirect()->back()->with('success','reservation updated successfully');
     }
 
     /**
