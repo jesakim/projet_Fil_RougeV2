@@ -60,8 +60,13 @@
         --fc-button-bg-color:#5e73e4;
         --fc-button-active-bg-color:#5364c5;
         --fc-button-active-border-color:#5364c5;
+        --fc-today-bg-color:#bbc4f5;
     }
 </style>
+<div class="d-flex align-items-center justify-content-end mb-2">
+
+    <x-make_reservation_modal :patients="$patients"/>
+</div>
 <div class="card mb-4 p-2">
     <div class="card-header p-2 d-flex justify-content-between align-items-center">
         <div>

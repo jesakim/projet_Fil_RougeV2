@@ -8,6 +8,7 @@
 
     <x-add_patients_modal :assurances="$assurances"/>
     <x-make_reservation_modal :patients="$patients"/>
+    <x-make_ordonnance_modal :patients="$patients" :drugs="$drugs"/>
 </div>
 @if ($errors->any())
   <div class="alert alert-danger border-0 alert-dismissible fade show m-0 mt-2" role="alert">
@@ -130,8 +131,5 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
 @endsection

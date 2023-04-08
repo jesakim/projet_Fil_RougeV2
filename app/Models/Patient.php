@@ -29,6 +29,11 @@ class Patient extends Model
 
     public function reservations()
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class)->orderByDesc('date');
+    }
+
+    public function ordonnances()
+    {
+        return $this->hasMany(Ordonnance::class);
     }
 }

@@ -2,17 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\notSunday;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreReservationRequest extends FormRequest
+class UpdateOrdonnanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,8 +22,7 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' =>['required','date_format:Y-m-d\\TH:i','after_or_equal:today', new notSunday],
-            'patient_id'=>'required|exists:patients,id'
+            //
         ];
     }
 }

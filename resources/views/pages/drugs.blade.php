@@ -45,7 +45,7 @@
 
 <div class="row">
 
-@foreach ($drugs as $drug)
+@forelse($drugs as $drug)
 
 
   <div class="col-md-4 mt-4 col-sm-6 col-xl-3">
@@ -75,7 +75,17 @@
       </div>
     </div>
   </div>
-  @endforeach
+
+  @empty
+
+  <div class="col mt-3">
+    <div class="card card-frame ">
+        <div class="card-body">
+            No drug to display
+        </div>
+    </div>
+  </div>
+  @endforelse
 
 
 

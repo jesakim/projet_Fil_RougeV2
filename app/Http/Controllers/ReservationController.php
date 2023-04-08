@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Patient;
 
 class ReservationController extends Controller
 {
@@ -14,7 +15,8 @@ class ReservationController extends Controller
     public function index()
     {
         $reservations = Reservation::join('patients','reservations.patient_id','patients.id')->get();
-        return view('pages.reservations',compact('reservations'));
+        $patients = Patient::all();
+        return view('pages.reservations',compact('reservations' , 'patients'));
     }
 
     /**

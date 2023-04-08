@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DrugController;
+use App\Http\Controllers\OrdonnanceController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('drugs',DrugController::class);
     Route::resource('reservations',ReservationController::class);
     Route::put('reservations/{reservation}',[ReservationController::class,'didcome'])->name('reservations.didcome');
+    Route::post('ordonnances/{ordonnance}',[OrdonnanceController::class,'downloadPdf'])->name('ordonnances.downloadPdf');
     Route::resource('services',ServiceController::class);
+    Route::resource('ordonnances',OrdonnanceController::class);
 });
 
