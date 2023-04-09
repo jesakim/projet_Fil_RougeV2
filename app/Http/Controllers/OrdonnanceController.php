@@ -32,17 +32,18 @@ class OrdonnanceController extends Controller
     {
         $ordonnance = Ordonnance::create(['patient_id'=>$request->safe()->patient_id]);
         $ordonnance->drugs()->attach($request->safe()->drug_ids);
-        return redirect()->back()->with('success', 'Ordonnance created successfully');
+        return $this->downloadPdf($ordonnance);
     }
 
     public function downloadPdf(Ordonnance $ordonnance){
+        // return view('pdf.ordonnance');
         $patientName = $ordonnance->patient->name;
         $drugs = $ordonnance->drugs()->pluck('name');
-        $created_at = $ordonnance->created_at;
+        $created_at = date('d/m/Y',strtotime($ordonnance->created_at));
         $pdf = PDF::loadView('pdf.ordonnance',
         compact('patientName','drugs','created_at'))->setPaper('a5', 'portrait');
 
-    return $pdf->stream();
+         return $pdf->stream();
     }
 
     /**

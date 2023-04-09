@@ -50,3 +50,27 @@ elem.classList.add('active')
 });
 document.getElementById(tab).classList.remove('d-none');
 }
+var globalSelectedPrice;
+function selecteService(elem){
+    selectedPrice = elem.options[elem.selectedIndex].getAttribute('data-price');
+    document.getElementById('selectedPrice').value = selectedPrice;
+    document.getElementById('theRest').value = selectedPrice;
+    receivedInput = document.getElementById('received');
+    receivedInput.removeAttribute('disabled');
+    receivedInput.value = 0
+    receivedInput.setAttribute('type','number');
+    // receivedInput.setAttribute('max',selectedPrice);
+    globalSelectedPrice = parseInt(selectedPrice);
+
+
+}
+
+function receivedChanged(receivedPrice){
+    receivedPriceValue = parseInt(receivedPrice.value)
+    if(receivedPriceValue > globalSelectedPrice){
+        receivedPrice.value = globalSelectedPrice
+    }
+
+    document.getElementById('theRest').value = globalSelectedPrice - receivedPrice.value
+
+}

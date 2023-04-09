@@ -9,6 +9,7 @@
     <x-add_patients_modal :assurances="$assurances"/>
     <x-make_reservation_modal :patients="$patients"/>
     <x-make_ordonnance_modal :patients="$patients" :drugs="$drugs"/>
+    <x-facture_modal :patients="$patients" :services="$services"/>
 </div>
 @if ($errors->any())
   <div class="alert alert-danger border-0 alert-dismissible fade show m-0 mt-2" role="alert">

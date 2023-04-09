@@ -6,6 +6,7 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Models\Assurance;
 use App\Models\Drug;
+use App\Models\Service;
 
 class DashboardController extends Controller
 {
@@ -13,6 +14,7 @@ class DashboardController extends Controller
         $patients = Patient::all();
         $assurances = Assurance::all();
         $drugs = Drug::all();
-        return view('pages.dashboard',compact('patients','assurances','drugs'));
+        $services = Service::all();
+        return view('pages.dashboard',compact('patients','assurances','drugs','services'));
     }
 }

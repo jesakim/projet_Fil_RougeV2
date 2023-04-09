@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DrugController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrdonnanceController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -46,5 +47,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('ordonnances/{ordonnance}',[OrdonnanceController::class,'downloadPdf'])->name('ordonnances.downloadPdf');
     Route::resource('services',ServiceController::class);
     Route::resource('ordonnances',OrdonnanceController::class);
+    Route::resource('invoice',InvoiceController::class);
 });
 
